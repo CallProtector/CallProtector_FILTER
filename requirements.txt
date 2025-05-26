@@ -1,0 +1,10 @@
+transformers
+datasets
+torch
+sentencepiece
+protobuf
+kobert-transformers
+speechrecognition
+sounddevice
+fastapi
+uvicorn
