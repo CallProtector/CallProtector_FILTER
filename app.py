@@ -12,6 +12,6 @@ def filter_abuse(req: AbuseRequest):
     abuse, detected, abuse_type = is_abuse(req.text)
     return {
         "abuse": abuse,
-        "detected": detected,
+        "detected": bool(detected),
         "type": abuse_type
     }
