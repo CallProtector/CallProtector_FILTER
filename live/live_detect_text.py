@@ -1,11 +1,11 @@
 import json
 import re
 import torch
-from transformers import AutoTokenizer, BertForSequenceClassification
+from transformers import BertTokenizer, BertForSequenceClassification
 
 # ✅ 모델 로딩
-model = BertForSequenceClassification.from_pretrained("./model/kobert_multi_all")
-tokenizer = AutoTokenizer.from_pretrained("monologg/kobert", trust_remote_code=True)
+model = BertForSequenceClassification.from_pretrained("./model/kobert_debug")
+tokenizer = BertTokenizer.from_pretrained("./model/kobert_debug", trust_remote_code=True)
 model.eval()
 
 # ✅ 욕설 사전 및 강제 차단 단어 로딩
@@ -37,7 +37,7 @@ def predict_kobert_multi(text):
         logits = model(**inputs).logits
         probs = torch.sigmoid(logits).squeeze().tolist()
         print(f"📊 예측 확률: {probs}")
-        return [LABELS[i] for i, p in enumerate(probs) if p >= 0.4]
+        return [LABELS[i] for i, p in enumerate(probs) if p >= 0.3]
 
 # ✅ 최종 감지 함수
 def is_abuse(text):

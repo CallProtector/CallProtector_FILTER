@@ -188,4 +188,4 @@ cython_debug/
 .cursorindexingignore
 
 detect/kobert_offensive/
-model/kobert_multi_all/
+model/
