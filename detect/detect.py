@@ -17,12 +17,15 @@ with open("data/force_block.json", "r", encoding="utf-8") as f:
 
 # ✅ 전처리
 def normalize(text):
-    return re.sub(r"[^가-힣a-zA-Z0-9\s]", "", text).lower()
+    return re.sub(r"[^가-힣a-zA-Z0-9\s]", "", text).lower().strip()
 
 # ✅ 단어 사전 기반 필터링
 def contains_badword(text):
     norm = normalize(text)
+    print(f"🔍 정규화된 텍스트: '{norm}'")
     detected = [word for word in BADWORDS if word in norm]
+    if detected:
+        print(f"📌 감지된 욕설 단어: {', '.join(detected)}")
     return detected
 
 # ✅ 다중 라벨 KoBERT 예측
