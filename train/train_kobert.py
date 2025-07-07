@@ -1,10 +1,10 @@
-from datasets import load_dataset, Dataset
+from datasets import load_dataset, Dataset, concatenate_datasets
 from transformers import AutoTokenizer, BertForSequenceClassification, TrainingArguments, Trainer
-from datasets import concatenate_datasets
 import torch.nn as nn
 import numpy as np
 import pandas as pd
 import json
+from datasets import Value, Sequence
 
 # ✅ 욕설/성희롱 데이터 로드
 dataset = load_dataset("smilegate-ai/kor_unsmile")
@@ -29,14 +29,18 @@ with open("data/threat_sentences.json", "r", encoding="utf-8") as f:
 
 threat_dataset = Dataset.from_pandas(pd.DataFrame(threat_samples))
 
-# ✅ 협박 문장을 학습 데이터에 병합
-train_data = concatenate_datasets([train_data, threat_dataset])
+# ✅ 성희롱 강화 데이터 로드
+with open("data/sexualHarass_sentences.json", "r", encoding="utf-8") as f:
+    sexual_samples = json.load(f)
+sexual_dataset = Dataset.from_pandas(pd.DataFrame(sexual_samples))
 
-# ✅ KoBERT 토크나이저 로드 및 적용
+train_data = concatenate_datasets([train_data, threat_dataset, sexual_dataset])
+
+# ✅ KoBERT 토크나이저 로드 및 전처리
 tokenizer = AutoTokenizer.from_pretrained("monologg/kobert", trust_remote_code=True)
 
-def tokenize(examples):
-    return tokenizer(examples["text"], truncation=True, padding="max_length", max_length=64)
+def tokenize(example):
+    return tokenizer(example["text"], truncation=True, padding="max_length", max_length=64)
 
 train_data = train_data.map(tokenize, batched=True)
 valid_data = valid_data.map(tokenize, batched=True)
@@ -49,12 +53,9 @@ def cast_labels(example):
 train_data = train_data.map(cast_labels)
 valid_data = valid_data.map(cast_labels)
 
-# cast_column으로 라벨 float32 확정
-from datasets import Value, Sequence
 train_data = train_data.cast_column("labels", Sequence(Value("float32")))
 valid_data = valid_data.cast_column("labels", Sequence(Value("float32")))
 
-# 최종 torch 포맷
 train_data.set_format(type="torch", columns=["input_ids", "token_type_ids", "attention_mask", "labels"])
 valid_data.set_format(type="torch", columns=["input_ids", "token_type_ids", "attention_mask", "labels"])
 
@@ -93,5 +94,21 @@ trainer = Trainer(
 trainer.train()
 
 # ✅ 학습된 모델과 토크나이저 저장
-trainer.save_model("./model/kobert_multi_all")
-tokenizer.save_pretrained("./model/kobert_multi_all")
+save_dir = "./model/kobert_multi_all"
+trainer.save_model(save_dir)
+tokenizer.save_vocabulary(save_dir)
+
+tokenizer_config = {
+    "do_lower_case": False,
+    "model_max_length": 512,
+    "tokenizer_class": "BertTokenizer",
+    "unk_token": "[UNK]",
+    "sep_token": "[SEP]",
+    "pad_token": "[PAD]",
+    "cls_token": "[CLS]",
+    "mask_token": "[MASK]"
+}
+
+import os, json
+with open(os.path.join(save_dir, "tokenizer_config.json"), "w", encoding="utf-8") as f:
+    json.dump(tokenizer_config, f, ensure_ascii=False, indent=2)

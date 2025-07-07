@@ -189,3 +189,4 @@ cython_debug/
 
 detect/kobert_offensive/
 model/
+data/
