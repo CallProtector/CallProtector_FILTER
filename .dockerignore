@@ -1,8 +1,36 @@
+# 기본 Python 무시 파일
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*.so
 *.log
-*.env
+
+# 환경 파일
+.env
+.venv/
+env/
 venv/
+
+# Git & IDE 관련
 .git
+.idea/
+.vscode/
+
+# 모델 관련
+*.pt
+*.bin
+*.h5
+*.ckpt
+*.pth
+*.onnx
+
+# 모델/데이터 디렉토리
+model/
+data/
+detect/kobert_offensive/
+
+# 빌드 불필요한 폴더
+node_modules/
+build/
+dist/
+.cache/
+*.egg-info/
