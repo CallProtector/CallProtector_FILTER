@@ -4,7 +4,10 @@ import torch
 from transformers import AutoTokenizer, BertForSequenceClassification
 
 # ✅ 모델 및 토크나이저 로드
-model = BertForSequenceClassification.from_pretrained("./model/kobert_multi_all")
+#model = BertForSequenceClassification.from_pretrained("./model/kobert_multi_all")
+# 도커로 배포를 위해 수정
+model = BertForSequenceClassification.from_pretrained("./detect/kobert_offensive")
+
 tokenizer = AutoTokenizer.from_pretrained("monologg/kobert", trust_remote_code=True)
 model.eval()
 
