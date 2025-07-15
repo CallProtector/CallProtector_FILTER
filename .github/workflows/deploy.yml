@@ -7,6 +7,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # 전체 Job 최대 실행 시간 (기본은 360분)
 
     steps:
       - name: Checkout code
@@ -28,6 +29,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/CallProtector_BE
-            docker compose pull
+            docker compose pull ai-server
             docker compose up -d --no-deps ai-server
-
