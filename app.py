@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from detect.detect import is_abuse
 
-app = FastAPI()
+app = FastAPI(root_path="/filter-abuse")
 
 class AbuseRequest(BaseModel):
     text: str
