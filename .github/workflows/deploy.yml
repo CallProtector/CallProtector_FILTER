@@ -1,9 +1,9 @@
 name: Docker CI/CD for AI Server
 
 on:
-  workflow_dispatch
-  # push:
-  #   branches: [ "develop" ]
+  # workflow_dispatch
+  push:
+    branches: [ "develop" ]
 
 jobs:
   build-and-deploy:
