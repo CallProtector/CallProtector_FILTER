@@ -26,11 +26,18 @@ venv/
 # 모델/데이터 디렉토리
 model/
 data/
+<<<<<<< HEAD
 detect/kobert_offensive/
+=======
+>>>>>>> 8342f4d3177d978af465db39a2d95cfe48c364ca
 
 # 빌드 불필요한 폴더
 node_modules/
 build/
 dist/
 .cache/
+<<<<<<< HEAD
 *.egg-info/
+=======
+*.egg-info/
+>>>>>>> 8342f4d3177d978af465db39a2d95cfe48c364ca
