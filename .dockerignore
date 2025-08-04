@@ -1,0 +1,6 @@
+__pycache__/
+*.pt
+*.bin
+*.zip
+.venv/
+model/ 
