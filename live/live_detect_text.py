@@ -1,7 +1,7 @@
 import json
 import re
 import torch
-from transformers import BertConfig, BertTokenizer, AutoTokenizer, BertForSequenceClassification
+from transformers import BertTokenizer, BertForSequenceClassification
 
 # ✅ 모델 로딩
 model = BertForSequenceClassification.from_pretrained("./model/kobert_v1")

@@ -1,11 +1,11 @@
 import json
 import re
 import torch
-from transformers import AutoTokenizer, BertForSequenceClassification
+from transformers import BertTokenizer, BertForSequenceClassification
 
 # ✅ 모델 및 토크나이저 로드
-model = BertForSequenceClassification.from_pretrained("./model/kobert_multi_all")
-tokenizer = AutoTokenizer.from_pretrained("monologg/kobert", trust_remote_code=True)
+model = BertForSequenceClassification.from_pretrained("./model/kobert_v1")
+tokenizer = BertTokenizer.from_pretrained("./model/kobert_v1", trust_remote_code=True)
 model.eval()
 
 # ✅ 단어 사전 로딩
