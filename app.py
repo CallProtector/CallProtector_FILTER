@@ -7,7 +7,7 @@ app = FastAPI()
 class AbuseRequest(BaseModel):
     text: str
 
-@app.post("/filter-abuse")
+@app.post("/api/abuse/filter")
 def filter_abuse(req: AbuseRequest):
     abuse, detected, abuse_type = is_abuse(req.text)
     return {
