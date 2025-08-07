@@ -18,6 +18,13 @@ with open("data/badwords.json", encoding="utf-8") as f:
 
 with open("data/force_block.json", encoding="utf-8") as f:
     FORCE_BLOCK = set(json.load(f)["force_block"])
+    
+# ✅ 전처리
+def normalize(text: str) -> str:
+    return re.sub(r"[^가-힣a-zA-Z0-9\s]", "", text).lower().strip()
+
+def contains_badword(norm_text: str):
+    return [word for word in BADWORDS if word in norm_text]
 
 # ✅ KoBERT 모델 정의
 class KoBERTClassifier(BertPreTrainedModel):
@@ -32,13 +39,6 @@ class KoBERTClassifier(BertPreTrainedModel):
         pooled_output = self.dropout(outputs.pooler_output)
         logits = self.classifier(pooled_output)
         return logits
-
-# ✅ 전처리 함수
-def normalize(text: str) -> str:
-    return re.sub(r"[^가-힣a-zA-Z0-9\s]", "", text).lower().strip()
-
-def contains_badword(norm_text: str):
-    return [word for word in BADWORDS if word in norm_text]
 
 # ✅ 모델 및 토크나이저 로딩
 tokenizer = AutoTokenizer.from_pretrained("monologg/kobert", trust_remote_code=True)
