@@ -36,6 +36,6 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/abusefilter
+            cd /home/ubuntu/CallProtector_BE
             docker pull callprotect/abusefilter:latest
-            docker-compose up -d
+            docker-compose up -d abusefilter
