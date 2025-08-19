@@ -63,7 +63,7 @@ def is_abuse(text: str):
 
     # 강제 차단 단어 우선 감지
     if any(word in FORCE_BLOCK for word in detected):
-        return True, detected, "욕설(강제차단)"
+        return True, detected, "욕설"
 
     # 모델 예측
     probs, pred_label, pred_idx = predict(text)
