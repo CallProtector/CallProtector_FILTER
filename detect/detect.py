@@ -7,7 +7,7 @@ from transformers import AutoTokenizer, AutoConfig, BertPreTrainedModel, BertMod
 
 # ✅ 설정
 LABEL_NAMES = ["욕설", "성희롱", "협박", "정상"]
-MODEL_PATH = "./model/kobert_v11"
+MODEL_PATH = "./model/kobert_v12"
 THRESHOLD = 0.9
 DELTA_THRESHOLD = 0.2
 NORMAL_CLASS_INDEX = 3
